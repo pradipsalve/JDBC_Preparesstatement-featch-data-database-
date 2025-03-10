@@ -8,7 +8,7 @@ public class Main {
         String url = "jdbc:mysql://localhost:3306/student";
         String user = "root";
         String pass = "root";
-        String query = "select * from student  where name = ?";
+        String query = "insert into student (id,name,salary)values(?,?,?)";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");        //load driver
@@ -22,22 +22,23 @@ public class Main {
         try {
                 Connection con= DriverManager.getConnection(url, user, pass); //create establish connenction
                PreparedStatement preparedStatement = con.prepareStatement(query);
-               preparedStatement.setString(1,"rahul" );
-               ResultSet resultSet = preparedStatement.executeQuery();
+              preparedStatement.setInt(1,3);
+              preparedStatement.setString(2,"pradip");
+              preparedStatement.setFloat(3,433431);
 
-                while(resultSet.next()){
-                    int id = resultSet.getInt("id");
-                    String name = resultSet.getString("name");
-                    String salary  = resultSet.getString("salary");
-                    System.out.println(id);
-                    System.out.println(name);
-                    System.out.println(salary);
+              int rowaffected = preparedStatement.executeUpdate();
+              if(rowaffected>0){
+                  System.out.println("data inserion successfully");
 
 
+                  }else{
+                  System.out.println("data insertion failed");
+              }
 
-                }
 
-               resultSet.close();
+
+
+
                 preparedStatement.close();
                 con.close();
                 System.out.println();
